@@ -1,0 +1,11 @@
+{% macro erro(erros, campo) %}
+  {% if erros.get(campo) %}<p class="erro-campo" id="erro-{{ campo }}" role="alert">{{ erros[campo] }}</p>{% endif %}
+{% endmacro %}
+
+{% macro selo_status(status) %}
+  <span class="selo selo-{{ status }}">{{ STATUS_ROTULO[status] }}</span>
+{% endmacro %}
+
+{% macro csrf() %}<input type="hidden" name="csrf_token" value="{{ csrf_token }}">{% endmacro %}
+
+{% macro data_br(iso) %}{% if iso %}{{ iso[8:10] }}/{{ iso[5:7] }}/{{ iso[0:4] }}{% else %}—{% endif %}{% endmacro %}

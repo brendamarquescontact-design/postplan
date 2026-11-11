@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import selo_status, data_br %}
+{% block titulo %}Calendário{% endblock %}
+{% block conteudo %}
+<div class="cabecalho"><h1>Calendário de publicações</h1></div>
+{% if dias %}
+  {% for data, itens in dias %}
+  <section class="cartao dia" aria-labelledby="d-{{ data }}">
+    <h2 id="d-{{ data }}">{{ data_br(data) }}</h2>
+    <ul class="lista-simples">
+      {% for p in itens %}
+      <li>
+        <span class="titulo-item">{{ p['titulo'] }}</span>
+        <span class="plat">{{ p['plataforma'] }}</span>
+        {{ selo_status(p['status']) }}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+{% else %}
+  <p class="vazio cartao">Nenhum post com data definida. Edite um post e escolha a data de publicação.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from "_macros.html" import erro %}
+{% block titulo %}{{ 'Editar post' if editando else 'Novo post' }}{% endblock %}
+{% block conteudo %}
+<section class="cartao">
+  <h1>{{ 'Editar post' if editando else 'Novo post' }}</h1>
+  <form method="post" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    <label for="titulo">Título <small>(obrigatório)</small></label>
+    <input id="titulo" name="titulo" type="text" required maxlength="120" value="{{ form.get('titulo', '') or '' }}" {% if erros.titulo %}aria-invalid="true" aria-describedby="erro-titulo"{% endif %}>
+    {{ erro(erros, 'titulo') }}
+
+    <div class="duas-colunas">
+      <div>
+        <label for="plataforma">Plataforma</label>
+        <select id="plataforma" name="plataforma" required {% if erros.plataforma %}aria-invalid="true"{% endif %}>
+          <option value="">Escolha…</option>
+          {% for pl in PLATAFORMAS %}<option value="{{ pl }}" {% if form.get('plataforma') == pl %}selected{% endif %}>{{ pl }}</option>{% endfor %}
+        </select>
+        {{ erro(erros, 'plataforma') }}
+      </div>
+      <div>
+        <label for="pilar_id">Pilar de conteúdo <small>(opcional)</small></label>
+        <select id="pilar_id" name="pilar_id">
+          <option value="">Sem pilar</option>
+          {% for pi in pilares %}<option value="{{ pi['id'] }}" {% if (form.get('pilar_id') or '')|string == pi['id']|string %}selected{% endif %}>{{ pi['nome'] }}</option>{% endfor %}
+        </select>
+        {{ erro(erros, 'pilar_id') }}
+        {% if not pilares %}<p class="dica">Você ainda não tem pilares. <a href="{{ url_for('pilares.lista') }}">Criar um pilar</a></p>{% endif %}
+      </div>
+    </div>
+
+    <div class="duas-colunas">
+      <div>
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          {% for s in STATUS %}<option value="{{ s }}" {% if (form.get('status') or 'ideia') == s %}selected{% endif %}>{{ STATUS_ROTULO[s] }}</option>{% endfor %}
+        </select>
+        {{ erro(erros, 'status') }}
+      </div>
+      <div>
+        <label for="data_publicacao">Data de publicação <small>(opcional)</small></label>
+        <input id="data_publicacao" name="data_publicacao" type="date" value="{{ form.get('data_publicacao', '') or '' }}" {% if erros.data_publicacao %}aria-invalid="true" aria-describedby="erro-data_publicacao"{% endif %}>
+        {{ erro(erros, 'data_publicacao') }}
+      </div>
+    </div>
+
+    <label for="roteiro">Roteiro / notas</label>
+    <textarea id="roteiro" name="roteiro" rows="7" maxlength="2000" data-contador="contador-roteiro" {% if erros.roteiro %}aria-invalid="true" aria-describedby="erro-roteiro"{% endif %}>{{ form.get('roteiro', '') or '' }}</textarea>
+    <p class="dica"><span id="contador-roteiro">0</span>/2000 caracteres</p>
+    {{ erro(erros, 'roteiro') }}
+
+    <div class="botoes">
+      <button class="btn btn-primario" type="submit">{{ 'Salvar alterações' if editando else 'Criar post' }}</button>
+      <a class="btn" href="{{ url_for('posts.lista') }}">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}PostPlan{% endblock %} · PostPlan</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <a class="marca" href="{{ url_for('posts.painel') }}">✦ PostPlan</a>
+    {% if g.usuario %}
+    <nav aria-label="Principal">
+      <a href="{{ url_for('posts.painel') }}" {% if request.endpoint == 'posts.painel' %}aria-current="page"{% endif %}>Painel</a>
+      <a href="{{ url_for('posts.lista') }}" {% if request.endpoint == 'posts.lista' %}aria-current="page"{% endif %}>Posts</a>
+      <a href="{{ url_for('posts.calendario') }}" {% if request.endpoint == 'posts.calendario' %}aria-current="page"{% endif %}>Calendário</a>
+      <a href="{{ url_for('pilares.lista') }}" {% if request.endpoint == 'pilares.lista' %}aria-current="page"{% endif %}>Pilares</a>
+    </nav>
+    <form class="sair" method="post" action="{{ url_for('auth.logout') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <span class="ola">Olá, {{ g.usuario['nome'].split()[0] }}</span>
+      <button class="btn btn-link" type="submit">Sair</button>
+    </form>
+    {% endif %}
+  </header>
+
+  <main id="conteudo">
+    <div class="avisos" role="status" aria-live="polite">
+      {% for categoria, msg in get_flashed_messages(with_categories=true) %}
+        <p class="aviso aviso-{{ categoria }}">{{ msg }}</p>
+      {% endfor %}
+    </div>
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">PostPlan · projeto acadêmico PIT II</footer>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

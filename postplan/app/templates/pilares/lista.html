@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "_macros.html" import erro, csrf %}
+{% block titulo %}Pilares{% endblock %}
+{% block conteudo %}
+<div class="cabecalho"><h1>Pilares de conteúdo</h1></div>
+<p class="sub">Pilares são os grandes temas do seu perfil (ex.: Rotina, Receitas, Viagens). Eles ajudam a manter equilíbrio no que você publica.</p>
+
+<section class="cartao">
+  <h2>Novo pilar</h2>
+  <form method="post" class="linha-form" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <div>
+      <label for="nome">Nome</label>
+      <input id="nome" name="nome" type="text" required maxlength="40" value="{{ form.get('nome', '') }}" {% if erros.nome %}aria-invalid="true" aria-describedby="erro-nome"{% endif %}>
+      {{ erro(erros, 'nome') }}
+    </div>
+    <div>
+      <label for="cor">Cor</label>
+      <input id="cor" name="cor" type="color" value="{{ form.get('cor', '#7c5cff') }}">
+      {{ erro(erros, 'cor') }}
+    </div>
+    <button class="btn btn-primario" type="submit">Adicionar</button>
+  </form>
+</section>
+
+<section class="cartao">
+  <h2>Seus pilares</h2>
+  {% if pilares %}
+  <ul class="lista-simples">
+    {% for pi in pilares %}
+    <li>
+      <span class="pilar" style="--cor: {{ pi['cor'] }}">{{ pi['nome'] }}</span>
+      <span class="plat">{{ pi['total_posts'] }} post{{ '' if pi['total_posts'] == 1 else 's' }}</span>
+      <form method="post" action="{{ url_for('pilares.excluir', pilar_id=pi['id']) }}" data-confirmar="Excluir o pilar “{{ pi['nome'] }}”? Os posts dele não serão apagados, só ficarão sem pilar.">
+        {{ csrf() }}<button class="btn btn-mini btn-perigo" type="submit">Excluir</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="vazio">Você ainda não criou nenhum pilar.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}Entrar{% endblock %}
+{% block conteudo %}
+<section class="cartao estreito">
+  <h1>Entrar</h1>
+  <p class="sub">Organize suas ideias de conteúdo em um só lugar.</p>
+  <form method="post" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" autocomplete="email" required value="{{ form.get('email', '') }}">
+    <label for="senha">Senha</label>
+    <input id="senha" name="senha" type="password" autocomplete="current-password" required>
+    <button class="btn btn-primario" type="submit">Entrar</button>
+  </form>
+  <p class="sub">Ainda não tem conta? <a href="{{ url_for('auth.cadastro') }}">Cadastre-se</a></p>
+</section>
+{% endblock %}

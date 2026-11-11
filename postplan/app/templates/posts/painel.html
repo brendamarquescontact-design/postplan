@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_macros.html" import selo_status, data_br %}
+{% block titulo %}Painel{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Seu painel</h1>
+  <a class="btn btn-primario" href="{{ url_for('posts.novo') }}">+ Novo post</a>
+</div>
+
+<section aria-labelledby="h-funil">
+  <h2 id="h-funil">Funil de produção</h2>
+  <ul class="funil">
+    {% for s in STATUS %}
+    <li>
+      <a href="{{ url_for('posts.lista', status=s) }}">
+        <strong>{{ contagem[s] }}</strong>
+        <span>{{ STATUS_ROTULO[s] }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="cartao" aria-labelledby="h-prox">
+  <h2 id="h-prox">Próximas publicações</h2>
+  {% if proximos %}
+  <ul class="lista-simples">
+    {% for p in proximos %}
+    <li>
+      <span class="data">{{ data_br(p['data_publicacao']) }}</span>
+      <span class="titulo-item">{{ p['titulo'] }}</span>
+      <span class="plat">{{ p['plataforma'] }}</span>
+      {{ selo_status(p['status']) }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="vazio">Nada agendado ainda. <a href="{{ url_for('posts.novo') }}">Crie seu primeiro post</a> e escolha uma data de publicação.</p>
+  {% endif %}
+</section>
+{% endblock %}

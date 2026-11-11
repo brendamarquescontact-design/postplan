@@ -1,0 +1,42 @@
+tests/test_models.py::test_usuario_cria_e_autentica PASSED
+tests/test_models.py::test_usuario_senha_nao_fica_em_texto_puro PASSED
+tests/test_models.py::test_usuario_validacao
+tests/test_models.py::test_usuario_validacao
+tests/test_models.py::test_usuario_validacao
+tests/test_models.py::test_usuario_email_duplicado PASSED
+tests/test_models.py::test_pilar_criar_listar_duplicado PASSED
+tests/test_models.py::test_post_crud PASSED
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_validacao
+tests/test_models.py::test_post_nao_aceita_pilar_de_outra_usuaria PASSED
+tests/test_models.py::test_post_isolamento_entre_usuarias PASSED
+tests/test_models.py::test_avancar_status_percorre_o_funil PASSED
+tests/test_models.py::test_excluir_pilar_mantem_posts PASSED
+tests/test_models.py::test_filtros_e_contagem PASSED
+tests/test_models.py::test_sql_injection_na_busca_e_tratada_como_texto PASSED
+tests/test_rotas.py::test_rotas_protegidas_redirecionam_para_login PASSED
+tests/test_rotas.py::test_cadastro_e_login_fluxo_completo PASSED
+tests/test_rotas.py::test_login_invalido_mostra_mensagem PASSED
+tests/test_rotas.py::test_cadastro_com_erro_mostra_mensagens_e_mantem_dados PASSED
+tests/test_rotas.py::test_logout PASSED
+tests/test_rotas.py::test_criar_post_aparece_na_lista PASSED
+tests/test_rotas.py::test_criar_post_invalido_mantem_formulario_com_erros PASSED
+tests/test_rotas.py::test_editar_e_excluir_post PASSED
+tests/test_rotas.py::test_avancar_etapa_pela_interface PASSED
+tests/test_rotas.py::test_post_inexistente_da_404_com_pagina_amigavel PASSED
+tests/test_rotas.py::test_nao_acessa_post_de_outra_usuaria PASSED
+tests/test_rotas.py::test_filtro_por_status_na_lista PASSED
+tests/test_rotas.py::test_pilares_criar_duplicado_e_excluir PASSED
+tests/test_rotas.py::test_calendario_agrupa_por_data PASSED
+tests/test_rotas.py::test_xss_e_escapado_na_lista PASSED
+tests/test_rotas.py::test_csrf_bloqueia_post_sem_token PASSED
+tests/test_rotas.py::test_csrf_aceita_post_com_token PASSED
+============================== 41 passed in 4.81s ==============================
