@@ -33,6 +33,8 @@ def login():
         if user:
             session.clear()
             session["usuario_id"] = user["id"]
+            # "Lembrar de mim": mantém a sessão por 31 dias (padrão do Flask); sem marcar, termina ao fechar o navegador.
+            session.permanent = bool(form.get("lembrar"))
             return redirect(url_for("posts.painel"))
         flash("E-mail ou senha incorretos.", "error")
     return render_template("auth/login.html", form=form)
