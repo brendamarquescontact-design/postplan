@@ -10,6 +10,7 @@
     <input id="email" name="email" type="email" autocomplete="email" required value="{{ form.get('email', '') }}">
     <label for="senha">Senha</label>
     <input id="senha" name="senha" type="password" autocomplete="current-password" required>
+    <label class="check"><input type="checkbox" name="lembrar" value="1" {% if form.get('lembrar') %}checked{% endif %}> Lembrar de mim neste aparelho</label>
     <button class="btn btn-primario" type="submit">Entrar</button>
   </form>
   <p class="sub">Ainda não tem conta? <a href="{{ url_for('auth.cadastro') }}">Cadastre-se</a></p>
