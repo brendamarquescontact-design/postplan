@@ -101,3 +101,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, .btn:focus-vi
   .tabela td { border: 0; padding: .3rem .8rem; }
   .tabela td::before { content: attr(data-rotulo) ": "; font-weight: 600; color: var(--suave); }
 }
+
+.check { display: flex; align-items: center; gap: .5rem; font-weight: 400; margin-top: .9rem; }
+.check input { width: auto; }
