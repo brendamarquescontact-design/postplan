@@ -33,6 +33,10 @@ def criar(usuario_id, nome, cor):
     if erros:
         raise ValidationError(erros)
     db = get_db()
+    # Nomes repetidos são recusados sem diferenciar maiúsculas/minúsculas ("Alcance" = "alcance").
+    existentes = [r["nome"].casefold() for r in db.execute("SELECT nome FROM pilar WHERE usuario_id = ?", (usuario_id,))]
+    if nome.casefold() in existentes:
+        raise ValidationError({"nome": "Você já tem um pilar com esse nome."})
     try:
         cur = db.execute(
             "INSERT INTO pilar (usuario_id, nome, cor) VALUES (?, ?, ?)", (usuario_id, nome, cor)
