@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% from "_macros.html" import selo_status, data_br, csrf with context %}
+{% block titulo %}Posts{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Posts</h1>
+  <a class="btn btn-primario" href="{{ url_for('posts.novo') }}">+ Novo post</a>
+</div>
+
+<form class="filtros" method="get" role="search" aria-label="Filtrar posts">
+  <div>
+    <label for="q">Buscar pelo título</label>
+    <input id="q" name="q" type="search" value="{{ filtros.q }}" placeholder="Ex.: rotina da manhã">
+  </div>
+  <div>
+    <label for="status">Status</label>
+    <select id="status" name="status" data-auto-submit>
+      <option value="">Todos</option>
+      {% for s in STATUS %}<option value="{{ s }}" {% if filtros.status == s %}selected{% endif %}>{{ STATUS_ROTULO[s] }}</option>{% endfor %}
+    </select>
+  </div>
+  <div>
+    <label for="pilar">Pilar</label>
+    <select id="pilar" name="pilar" data-auto-submit>
+      <option value="">Todos</option>
+      {% for pi in pilares %}<option value="{{ pi['id'] }}" {% if filtros.pilar == pi['id']|string %}selected{% endif %}>{{ pi['nome'] }}</option>{% endfor %}
+    </select>
+  </div>
+  <button class="btn" type="submit">Filtrar</button>
+  {% if filtros.q or filtros.status or filtros.pilar %}<a href="{{ url_for('posts.lista') }}">Limpar filtros</a>{% endif %}
+</form>
+
+{% if posts %}
+<div class="tabela-wrap">
+<table class="tabela">
+  <caption class="so-leitor">Lista de posts</caption>
+  <thead>
+    <tr><th>Título</th><th>Plataforma</th><th>Pilar</th><th>Status</th><th>Publicação</th><th>Ações</th></tr>
+  </thead>
+  <tbody>
+  {% for p in posts %}
+    <tr>
+      <td data-rotulo="Título">{{ p['titulo'] }}</td>
+      <td data-rotulo="Plataforma">{{ p['plataforma'] }}</td>
+      <td data-rotulo="Pilar">{% if p['pilar_nome'] %}<span class="pilar" style="--cor: {{ p['pilar_cor'] }}">{{ p['pilar_nome'] }}</span>{% else %}—{% endif %}</td>
+      <td data-rotulo="Status">{{ selo_status(p['status']) }}</td>
+      <td data-rotulo="Publicação">{{ data_br(p['data_publicacao']) }}</td>
+      <td data-rotulo="Ações"><div class="acoes">
+        {% if p['status'] != 'publicado' %}
+        <form method="post" action="{{ url_for('posts.avancar', post_id=p['id']) }}">{{ csrf() }}<button class="btn btn-mini" type="submit">Avançar etapa</button></form>
+        {% endif %}
+        <a class="btn btn-mini" href="{{ url_for('posts.editar', post_id=p['id']) }}">Editar</a>
+        <form method="post" action="{{ url_for('posts.excluir', post_id=p['id']) }}" data-confirmar="Excluir o post “{{ p['titulo'] }}”? Essa ação não pode ser desfeita.">{{ csrf() }}<button class="btn btn-mini btn-perigo" type="submit">Excluir</button></form>
+      </div></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="vazio cartao">Nenhum post encontrado{% if filtros.q or filtros.status or filtros.pilar %} com esses filtros{% endif %}.</p>
+{% endif %}
+{% endblock %}
